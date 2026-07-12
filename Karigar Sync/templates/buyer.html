@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KarigarSync - Buyer Marketplace</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #2c3e50, #1a252f); min-height: 100vh; margin: 0; padding: 30px; color: white; box-sizing: border-box; }
+        .auth-container { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
+        .auth-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
+        header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+        h1 { margin: 0; color: #ffe259; }
+        .dash-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto 25px; }
+        @media(max-width: 768px) { .dash-row { grid-template-columns: 1fr; } }
+        .user-hub, .cart-hub { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 15px 20px; border-radius: 12px; }
+        .cart-item { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 5px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto; }
+        .product-card { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
+        .badge { align-self: flex-start; background: #e05a47; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; }
+        .artisan-name { font-size: 0.9rem; color: #bdc3c7; }
+        .material-tag { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
+        .story-box { background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 8px; font-size: 0.95rem; margin-bottom: 15px; }
+        .action-row { display: flex; gap: 10px; margin-top: 12px; }
+        .market-action-btn { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; }
+        .cart-style { background: #f39c12; } .chat-style { background: #2980b9; }
+        .pipeline-box { background: rgba(0,0,0,0.3); margin-top: 15px; padding: 10px; border-radius: 6px; font-size: 0.85rem; }
+        .price-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 10px; }
+        .price-value { font-size: 1.5rem; font-weight: bold; color: #27ae60; }
+        .base-btn { background: #e05a47; color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; }
+        .no-data { grid-column: 1 / -1; text-align: center; color: #bdc3c7; margin-top: 50px; }
+        input.login-input { width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 15px; font-size: 1rem; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+
+<div id="authScreen" class="auth-container">
+    <div class="auth-card">
+        <h2 id="authTitle" style="color:#ffe259;">Buyer Log In</h2>
+        <!-- Maxlength set to 25 -->
+        <input type="text" id="buyerUsernameInput" placeholder="Enter Name..." class="login-input" maxlength="25">
+        <input type="text" id="buyerAddressInput" placeholder="Enter Delivery Address..." class="login-input">
+        <button id="authBtn" class="base-btn" style="width:100%; background:#27ae60;" onclick="submitLogin()">Log In</button>
+    </div>
+</div>
+
+<div id="marketplaceScreen" style="display: none;">
+    <header>
+        <div><h1 id="mainTitle">Heritage Marketplace</h1></div>
+        <div style="display:flex; gap:10px;">
+            <a href="/" class="base-btn" style="background:rgba(255,255,255,0.1); text-decoration: none; display: flex; align-items: center;">← Home</a>
+            <button id="logoutBtn" class="base-btn" style="background:#c0392b;" onclick="submitLogout()">Sign Out</button>
+        </div>
+    </header>
+
+    <div class="dash-row">
+        <div class="user-hub">
+            <div>👤 <span id="lblUser">Active Buyer</span>: <b id="hubUsername" style="color:#ffe259;">None</b></div>
+            <div style="margin: 8px 0;">📍 <span id="lblAddress">Address</span>: <b id="hubAddress" style="color:#ffe259; font-size:0.95rem;">None</b></div>
+            <div style="margin: 8px 0;">💳 <span id="lblWallet">Wallet Balance</span>: <b style="color:#27ae60;">₹<span id="hubWallet">1500</span></b></div>
+            <div>📦 <span id="lblOrders">Orders Placed</span>: <b id="hubOrderCount" style="color:#f39c12;">0</b></div>
+        </div>
+        <div class="cart-hub">
+            <h3 style="margin:0 0 10px 0; color:#ffe259;" id="lblCartTitle">🛒 My Shopping Cart</h3>
+            <div id="cartList" style="max-height:105px; overflow-y:auto; color:#bdc3c7; font-size:0.9rem;">Empty</div>
+        </div>
+    </div>
+    <div class="grid-container" id="marketGrid"></div>
+</div>
+
+<script>
+    let activeUser = null; let localCart = [];
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+    const labels = {
+        en: { authTitle: "Buyer Log In", authBtn: "Log In", mainTitle: "Heritage Marketplace", logout: "Sign Out", user: "Active Buyer", address: "Delivery Address", wallet: "Wallet Balance", orders: "Orders Placed", cartTitle: "🛒 My Shopping Cart", addCart: "🛒 Add to Cart", bargain: "💬 Bargain", buy: "⚡ Buy Now" },
+        hi: { authTitle: "लॉग इन करें", authBtn: "आगे बढ़ें", mainTitle: "मार्केटप्लेस", logout: "बाहर निकलें", user: "नाम", address: "डिलीवरी का पता", wallet: "कुल पैसे", orders: "खरीदे गए सामान", cartTitle: "🛒 मेरी कार्ट", addCart: "🛒 कार्ट में जोड़ें", bargain: "💬 मोल-भाव", buy: "⚡ खरीदें" }
+    };
+
+    function applyBuyerLanguage() {
+        const l = labels[currentLang];
+        document.getElementById('authTitle').innerText = l.authTitle;
+        document.getElementById('authBtn').innerText = l.authBtn;
+        document.getElementById('mainTitle').innerText = l.mainTitle;
+        document.getElementById('logoutBtn').innerText = l.logout;
+        document.getElementById('lblUser').innerText = l.user;
+        document.getElementById('lblAddress').innerText = l.address;
+        document.getElementById('lblWallet').innerText = l.wallet;
+        document.getElementById('lblOrders').innerText = l.orders;
+        document.getElementById('lblCartTitle').innerText = l.cartTitle;
+    }
+
+    async function checkSession() {
+        const response = await fetch('/get-active-buyer'); const data = await response.json();
+        if (data.user) { activeUser = data.user; activeUser.address = sessionStorage.getItem('buyerAddress') || 'Delhi, India'; showMarketplace(); }
+    }
+
+    async function submitLogin() {
+        const username = document.getElementById('buyerUsernameInput').value.trim();
+        const address = document.getElementById('buyerAddressInput').value.trim();
+        if(!username || !address) { alert("Please enter both Name and Delivery Address!"); return; }
+        const response = await fetch('/buyer-login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: username }) });
+        const result = await response.json();
+        if(result.status === "success") { activeUser = result.profile; activeUser.address = address; sessionStorage.setItem('buyerAddress', address); showMarketplace(); }
+    }
+
+    async function submitLogout() {
+        await fetch('/buyer-logout', { method: 'POST' }); activeUser = null; sessionStorage.removeItem('buyerAddress');
+        document.getElementById('authScreen').style.display = "flex"; document.getElementById('marketplaceScreen').style.display = "none";
+    }
+
+    function showMarketplace() {
+        document.getElementById('authScreen').style.display = "none"; document.getElementById('marketplaceScreen').style.display = "block";
+        document.getElementById('hubUsername').innerText = activeUser.username; document.getElementById('hubAddress').innerText = activeUser.address;
+        document.getElementById('hubWallet').innerText = activeUser.wallet; loadMarketplace();
+    }
+
+    function addToCart(itemId, material, price) {
+        if(localCart.some(item => item.id === itemId)) { alert("Already in cart!"); return; }
+        localCart.push({ id: itemId, title: material, price: price }); renderCartVisuals(); alert(`🛒 Added to cart!`);
+    }
+
+    function renderCartVisuals() {
+        const container = document.getElementById('cartList');
+        if(localCart.length === 0) { container.innerHTML = 'Empty'; return; }
+        container.innerHTML = '';
+        localCart.forEach(item => { container.innerHTML += `<div class="cart-item"><span>${item.id} - ${item.title}</span><b>₹${item.price}</b></div>`; });
+    }
+
+    function simulateNegotiate(itemId, artisan) {
+        const customOffer = prompt(`Direct Chat with ${artisan}!\nEnter your offer price for ${itemId}:`);
+        if(customOffer) alert(`📨 Offer sent to ${artisan}!`);
+    }
+
+    async function executePurchase(itemId, price) {
+        if(activeUser.wallet < price) { alert("❌ Balance low!"); return; }
+        const confirmBuy = confirm(`💳 Complete purchase for ₹${price}?\n📦 Shipping Destination: ${activeUser.address}`);
+        if(!confirmBuy) return;
+
+        const res = await fetch('/purchase-item', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ itemId: itemId }) });
+        const statusData = await res.json();
+        if(statusData.status === "success") {
+            activeUser.wallet -= price; document.getElementById('hubWallet').innerText = activeUser.wallet;
+            document.getElementById('hubOrderCount').innerText = parseInt(document.getElementById('hubOrderCount').innerText) + 1;
+            localCart = localCart.filter(item => item.id !== itemId); renderCartVisuals();
+            alert(`✨ Purchase successful!\n📍 ${activeUser.address}`); loadMarketplace();
+        } else { alert("🔒 Item is out of stock!"); }
+    }
+
+    async function loadMarketplace() {
+        if(!activeUser) return;
+        try {
+            const products = await (await fetch('/all-products')).json();
+            const grid = document.getElementById('marketGrid'); grid.innerHTML = '';
+            const keys = Object.keys(products); const l = labels[currentLang];
+            if(keys.length === 0) { grid.innerHTML = '<div class="no-data">📦 No crafts published yet.</div>'; return; }
+            
+            keys.forEach(id => {
+                const p = products[id]; const card = document.createElement('div'); card.className = 'product-card';
+                let stockWidget = `<span style="color:#ffe259; font-weight:bold;">${currentLang === 'hi' ? 'बचे हुए पीस' : 'Stock'}: ${p.stock}</span>`;
+                let actionWidget = `<button class="base-btn" style="background:#27ae60; padding:6px 12px; font-size:0.9rem;" onclick="executePurchase('${id}', ${p.price})">${l.buy}</button>`;
+                if (p.stock <= 0) { stockWidget = `<span style="color:#ff7675; font-weight:bold;">🔒 OUT OF STOCK</span>`; actionWidget = `<span style="color:#ff7675; font-weight:bold;">Sold Out</span>`; }
+
+                card.innerHTML = `
+                    <div>
+                        <div class="badge">${id}</div>
+                        ${ p.image ? `<img src="${p.image}" style="width:100%; max-height:180px; object-fit:cover; border-radius:10px; margin-bottom:12px;">` : '' }
+                        <p class="artisan-name">${currentLang === 'hi' ? 'कारीगर' : 'Created By'}: <b>${p.name}</b></p>
+                        <p class="material-tag">✨ ${p.material}</p>
+                        <div class="story-box">"${p.story}"</div>
+                    </div>
+                    <div class="pipeline-box"><b>📦 Status:</b> ${stockWidget}</div>
+                    <div class="action-row">
+                        <button class="market-action-btn cart-style" ${p.stock <= 0 ? 'disabled style="opacity:0.5;"' : ''} onclick="addToCart('${id}', '${p.material}', ${p.price})">${l.addCart}</button>
+                        <button class="market-action-btn chat-style" onclick="simulateNegotiate('${id}', '${p.name}')">${l.bargain}</button>
+                    </div>
+                    <div class="price-row"><div>${actionWidget}</div><span class="price-value">₹${p.price}</span></div>
+                `;
+                grid.appendChild(card);
+            });
+        } catch(err) { }
+    }
+    applyBuyerLanguage(); checkSession(); setInterval(loadMarketplace, 4000);
+</script>
+</body>
+</html>

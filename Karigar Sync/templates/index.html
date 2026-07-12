@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KarigarSync - Welcome Gateway</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #2c3e50, #000000); min-height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0; color: white; }
+        .gateway-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 40px 30px; border-radius: 25px; width: 100%; max-width: 450px; text-align: center; }
+        h1 { margin-bottom: 5px; color: #ffe259; }
+        .subtitle { color: #dddddd; font-style: italic; margin-bottom: 30px; }
+        .section-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 10px; color: #e05a47; font-weight: bold; }
+        .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .lang-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: 600; }
+        .lang-btn.active { background: white; color: #2c3e50; }
+        .portal-btn { width: 100%; padding: 16px; margin: 12px 0; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: bold; color: white; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .artisan-theme { background: #e05a47; }
+        .buyer-theme { background: #27ae60; }
+    </style>
+</head>
+<body>
+<div class="gateway-card">
+    <h1>KarigarSync</h1>
+    <p class="subtitle">Connecting Heritage Crafts to Global Markets</p>
+    <div class="section-title" id="langTitle">Select Language / भाषा चुनें</div>
+    <div class="lang-toggle">
+        <button id="btnEn" class="lang-btn active" onclick="setLanguage('en')">English</button>
+        <button id="btnHi" class="lang-btn" onclick="setLanguage('hi')">हिंदी</button>
+    </div>
+    <div class="section-title" id="portalTitle">Choose Portal / पोर्टल चुनें</div>
+    <button class="portal-btn artisan-theme" onclick="goToPortal('artisan')">👨‍🎨 <span id="artisanText">Artisan Studio</span></button>
+    <button class="portal-btn buyer-theme" onclick="goToPortal('buyer')">🛒 <span id="buyerText">Buyer Marketplace</span></button>
+</div>
+<script>
+    function setLanguage(lang) {
+        localStorage.setItem('selectedLanguage', lang);
+        document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+        document.getElementById('btnHi').classList.toggle('active', lang === 'hi');
+        
+        if(lang === 'hi') {
+            document.getElementById('langTitle').innerText = "भाषा का चयन करें";
+            document.getElementById('portalTitle').innerText = "पोर्टल चुनें";
+            document.getElementById('artisanText').innerText = "कारीगर स्टूडियो";
+            document.getElementById('buyerText').innerText = "खरीदार बाजार";
+        } else {
+            document.getElementById('langTitle').innerText = "Select Language / भाषा चुनें";
+            document.getElementById('portalTitle').innerText = "Choose Portal / पोर्टल चुनें";
+            document.getElementById('artisanText').innerText = "Artisan Studio";
+            document.getElementById('buyerText').innerText = "Buyer Marketplace";
+        }
+    }
+    // Initialize standard setting
+    setLanguage(localStorage.getItem('selectedLanguage') || 'en');
+    function goToPortal(portal) { window.location.href = '/' + portal; }
+</script>
+</body>
+</html>
