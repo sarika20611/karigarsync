@@ -3,218 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KarigarSync - Artisan Dashboard</title>
+    <title>Heritage Creator Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #e05a47, #2c3e50); min-height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0; padding: 20px; box-sizing: border-box; }
-        .form-container { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 30px; border-radius: 20px; width: 100%; max-width: 500px; color: white; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
-        h2 { text-align: center; margin-bottom: 25px; font-weight: 600; }
-        label { display: block; margin: 15px 0 5px; font-size: 0.9rem; letter-spacing: 0.5px; }
-        input, select, textarea { width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: white; font-size: 1rem; box-sizing: border-box; }
-        
-        /* THE STRETCHING FIX: Disables manual text box resizing */
-        textarea { resize: none; }
-        
-        option { background-color: #ffffff !important; color: #2c3e50 !important; }
-        .camera-container { margin-top: 15px; text-align: center; }
-        video, #photoPreview { width: 100%; max-height: 250px; border-radius: 10px; background: #000; display: none; object-fit: cover; }
-        .base-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-sizing: border-box; text-align: center; margin-top: 10px; }
-        .publish-btn { background: #e05a47; margin-top: 25px; }
-        .cam-action-btn { background: #34495e; }
-        .snap-btn { background: #27ae60; display: none; }
-        .price-box { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; text-align: center; margin-top: 20px; }
-        .price-box input { text-align: center; font-size: 1.8rem; font-weight: bold; color: #ffe259; background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.4); width: 60%; border-radius: 10px; }
-        #qrResult { display: none; text-align: center; margin-top: 20px; background: white; padding: 20px; border-radius: 10px; color: black; }
-        #qrResult img { max-width: 150px; margin-top: 10px; }
+        :root { --primary: #8e44ad; --bg: #f5f6fa; --text: #2c3e50; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
+        .studio-card { background: white; width: 100%; max-width: 500px; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { color: var(--primary); font-size: 24px; margin-bottom: 5px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+        .form-control { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; transition: 0.3s; }
+        .form-control:focus { border-color: var(--primary); outline: none; }
+        .base-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .cam-btn { background: #34495e; color: white; margin-bottom: 10px; }
+        .gallery-btn { background: #7f8c8d; color: white; margin-bottom: 15px; }
+        .publish-btn { background: var(--primary); color: white; margin-top: 10px; }
+        #cameraView, #imagePreview { width: 100%; border-radius: 8px; display: none; margin-top: 10px; transform: scaleX(-1); }
+        #imagePreview { transform: none; }
+        #qrResult { margin-top: 25px; padding: 20px; border: 2px dashed #dcdde1; border-radius: 12px; text-align: center; display: none; }
+        #qrcode { display: flex; justify-content: center; margin: 15px 0; }
+        .custom-material-box { display: none; margin-top: 10px; }
     </style>
 </head>
 <body>
-<div class="form-container">
-    <a href="/" id="backLink" style="color:#ffe259; text-decoration:none; font-size:0.9rem;">← Gateway Home</a>
-    <h2 id="titleText">Heritage Creator Studio</h2>
-    <p><span id="idLabel">Assigned Product ID</span>: <span id="autoIdDisplay">Loading...</span></p>
 
-    <label id="lblArtisan">Artisan Name</label>
-    <input type="text" id="artisanName" placeholder="Enter your name" maxlength="25">
-
-    <label id="lblMaterial">Craft Material</label>
-    <select id="material" onchange="calculatePrice()">
-        <option value="20">Terracotta Clay</option>
-        <option value="40">Natural Jute</option>
-        <option value="60">Raw Bamboo/Wood</option>
-    </select>
-
-    <label id="lblHours">Hours Invested</label>
-    <input type="number" id="hoursSpent" value="1" min="0" max="50" oninput="restrictHoursAndCalculate()">
-
-    <label id="lblStock">Available Stock Quantity</label>
-    <input type="number" id="stockCount" value="5" min="1" max="100" oninput="restrictStock()">
-
-    <label id="lblPhoto">Craft Photograph</label>
-    <div class="camera-container">
-        <video id="video" autoplay playsinline></video>
-        <img id="photoPreview" alt="Preview">
-        <button type="button" class="base-btn cam-action-btn" id="startCamBtn" onclick="startCamera()">🎥 Open Camera</button>
-        <button type="button" class="base-btn snap-btn" id="captureBtn" onclick="captureSnapshot()">📸 Snap Photo</button>
+<div class="studio-card">
+    <div class="header">
+        <h1 id="titleText">✨ Heritage Creator Studio</h1>
+        <p>Digitize your handmade craft items instantly</p>
     </div>
 
-    <label id="lblStory">My Story (Biography)</label>
-    <textarea id="story" rows="3" placeholder="Share background..."></textarea>
+    <!-- Hidden file elements for handling images -->
+    <input type="file" id="galleryInput" accept="image/*" style="display: none;" onchange="handleGalleryUpload(event)">
 
-    <div class="price-box">
-        <label id="lblPrice">Final Listing Price (Customizable)</label><br>
-        ₹<input type="number" id="priceLabel" value="50" oninput="restrictCustomPrice()">
+    <div class="form-group">
+        <label id="idLabel">Assigned Product ID</label>
+        <input type="text" id="productId" class="form-control" placeholder="e.g. ART-8832" required>
     </div>
 
-    <button class="base-btn publish-btn" id="submitBtn" onclick="publishProduct()">Publish & Generate QR</button>
+    <div class="form-group">
+        <label id="artisanLabel">Artisan Name</label>
+        <input type="text" id="artisanName" class="form-control" placeholder="Your name" required>
+    </div>
+
+    <div class="form-group">
+        <label id="materialLabel">Craft Material Used</label>
+        <select id="materialSelect" class="form-control" onchange="toggleMaterialInput()">
+            <option value="Terracotta Clay">Terracotta Clay</option>
+            <option value="Natural Jute">Natural Jute</option>
+            <option value="Raw Bamboo/Wood">Raw Bamboo/Wood</option>
+            <option value="Woolen Knits">Woolen Knits/Crochet</option>
+            <option value="Soft Felt Fabric">Soft Felt Fabric</option>
+            <option value="CUSTOM">Other (Type Your Own...)</option>
+        </select>
+        <div id="customMaterialWrapper" class="custom-material-box">
+            <input type="text" id="customMaterialInput" class="form-control" placeholder="Enter your custom material name">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label id="hoursLabel">Hours Invested (Max 50 Hours)</label>
+        <input type="number" id="hoursInvested" class="form-control" min="1" max="50" value="5" oninput="calculateDynamicPrice()">
+    </div>
+
+    <div class="form-group" style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+        <label id="lblPrice" style="margin-bottom: 2px;">Final Listing Price (Customizable)</label>
+        <span style="font-size: 18px; font-weight: bold; color: #27ae60;">₹ <input type="number" id="priceLabel" value="50" style="font-size: 18px; font-weight: bold; color: #27ae60; border: none; background: transparent; width: 80px;" oninput="restrictCustomPrice()"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Product Visual Capture</label>
+        <button class="base-btn cam-btn" onclick="startCamera()"><i class="fa-solid fa-camera"></i> Open Camera</button>
+        <button class="base-btn gallery-btn" onclick="triggerGallery()"><i class="fa-solid fa-folder-open"></i> Attach from Gallery</button>
+        <video id="cameraView" autoplay playsinline></video>
+        <img id="imagePreview" alt="Captured preview">
+        <button class="base-btn cam-btn" id="snapBtn" style="display:none; margin-top:10px; background:#e74c3c;" onclick="takeSnapshot()"><i class="fa-solid fa-circle"></i> Capture Photo</button>
+    </div>
+
+    <button class="base-btn publish-btn" id="submitBtn" onclick="publishProduct()">✨ Publish & Generate QR</button>
 
     <div id="qrResult">
         <h3 id="successTitle">✨ Live Sync Successful!</h3>
         <div id="qrcode"></div>
-        <button class="base-btn" style="background:#2c3e50;" id="nextItemBtn" onclick="resetForm()">Add Next Item</button>
-        <a href="/buyer" class="base-btn" style="background:#27ae60; text-decoration:none; display:block; margin-top:10px;" id="goToMarketBtn">🛒 Go to Marketplace</a>
+        <button class="base-btn" style="background:#2c3e50; margin-bottom: 10px;" id="nextItemBtn" onclick="resetForm()">Add Next Item</button>
+        <a href="/buyer" class="base-btn" style="background:#27ae60; text-decoration:none; display:block;" id="goToMarketBtn">🛒 Go to Marketplace</a>
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-    let currentAssignedId = ""; let imageDataUrl = ""; let streamRef = null;
-    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+    let currentStreamRef = null;
+    let finalCapturedImageBase64 = "";
+    let systemCalculatedBase = 50;
 
-    const dict = {
-        en: { title: "Heritage Creator Studio", idLabel: "Assigned Product ID", artisan: "Artisan Name", material: "Craft Material", hours: "Hours Invested (Max 50)", stock: "Available Stock Quantity (Max 100)", photo: "Craft Photograph", story: "My Story (Biography)", price: "Final Listing Price (Customizable, Max ₹5000)", publish: "Publish & Generate QR", next: "Add Next Item", back: "← Gateway Home" },
-        hi: { title: "कारीगर स्टूडियो", idLabel: "आइटम नंबर", artisan: "आपका नाम", material: "सामान का प्रकार", hours: "बनाने में लगे घंटे (अधिकतम 50)", stock: "सामान की कुल संख्या (अधिकतम 100)", photo: "फोटो खींचें", story: "सामान के बारे में जानकारी", price: "कीमत (अधिकतम ₹5000)", publish: "प्रकाशित करें", next: "अगला सामान जोड़ें", back: "← मुख्य पेज पर जाएं" }
-    };
-
-    function applyLanguage() {
-        const l = dict[currentLang];
-        document.getElementById('titleText').innerText = l.title;
-        document.getElementById('idLabel').innerText = l.idLabel;
-        document.getElementById('lblArtisan').innerText = l.artisan;
-        document.getElementById('lblMaterial').innerText = l.material;
-        document.getElementById('lblHours').innerText = l.hours;
-        document.getElementById('lblStock').innerText = l.stock;
-        document.getElementById('lblPhoto').innerText = l.photo;
-        document.getElementById('lblStory').innerText = l.story;
-        document.getElementById('lblPrice').innerText = l.price;
-        document.getElementById('submitBtn').innerText = l.publish;
-        document.getElementById('nextItemBtn').innerText = l.next;
-        document.getElementById('backLink').innerText = l.back;
+    function toggleMaterialInput() {
+        const selectValue = document.getElementById('materialSelect').value;
+        const customWrapper = document.getElementById('customMaterialWrapper');
+        if (selectValue === 'CUSTOM') {
+            customWrapper.style.display = 'block';
+        } else {
+            customWrapper.style.display = 'none';
+        }
     }
 
-    async function fetchNextId() {
-        try {
-            const response = await fetch('/next-id'); const data = await response.json();
-            currentAssignedId = data.nextId; document.getElementById('autoIdDisplay').innerText = currentAssignedId;
-        } catch(e) {}
+    function getSelectedMaterial() {
+        const selectValue = document.getElementById('materialSelect').value;
+        if (selectValue === 'CUSTOM') {
+            return document.getElementById('customMaterialInput').value || "Handcrafted Material";
+        }
+        return selectValue;
     }
 
-    function restrictHoursAndCalculate() {
-        const hoursInput = document.getElementById('hoursSpent');
-        let hours = parseInt(hoursInput.value);
-        if (hours > 50) { hoursInput.value = 50; }
-        if (hours < 0) { hoursInput.value = 0; }
-        calculatePrice();
-    }
-
-    function restrictStock() {
-        const stockInput = document.getElementById('stockCount');
-        let stock = parseInt(stockInput.value);
-        if (stock > 100) { stockInput.value = 100; }
-        if (stock < 1) { stockInput.value = 1; }
-    }
-
-    function calculatePrice() {
-        const base = parseInt(document.getElementById('material').value);
-        const hours = parseInt(document.getElementById('hoursSpent').value) || 0;
-        document.getElementById('priceLabel').value = base + (hours * 30);
+    function calculateDynamicPrice() {
+        let hours = parseInt(document.getElementById('hoursInvested').value) || 0;
+        if (hours > 50) { hours = 50; document.getElementById('hoursInvested').value = 50; }
+        systemCalculatedBase = 50 + (hours * 15);
+        document.getElementById('priceLabel').value = systemCalculatedBase;
     }
 
     function restrictCustomPrice() {
-        const p = document.getElementById('priceLabel');
-        const hours = parseInt(document.getElementById('hoursSpent').value) || 0;
-        let maximumAllowedPrice = 200 + (hours * 100);
-        if (maximumAllowedPrice > 5000) { maximumAllowedPrice = 5000; }
-        let price = parseInt(p.value) || 0;
-        if (price > maximumAllowedPrice) {
-            p.value = maximumAllowedPrice;
-            alert(`⚠️ Fair Trade Rule: For ${hours} hours of work, the maximum allowed price is ₹${maximumAllowedPrice}.`);
+        let enteredPrice = parseFloat(document.getElementById('priceLabel').value) || 0;
+        if (enteredPrice < systemCalculatedBase) {
+            document.getElementById('priceLabel').value = systemCalculatedBase;
         }
-        if (price < 0) { p.value = 0; }
     }
 
     async function startCamera() {
-        const video = document.getElementById('video');
-        // Mobile browser compatibility tuning
-        const videoConstraints = {
-            video: {
-                facingMode: "environment",
-                width: { ideal: 640 },
-                height: { ideal: 480 }
-            },
-            audio: false
-        };
-        
+        document.getElementById('imagePreview').style.display = 'none';
+        const video = document.getElementById('cameraView');
+        video.style.display = 'block';
+        if(currentStreamRef) { currentStreamRef.getTracks().forEach(track => track.stop()); }
         try {
-            if (streamRef) { streamRef.getTracks().forEach(t => t.stop()); }
-            streamRef = await navigator.mediaDevices.getUserMedia(videoConstraints);
-            video.srcObject = streamRef; 
-            video.style.display = "block";
-            document.getElementById('startCamBtn').style.display = "none"; 
-            document.getElementById('captureBtn').style.display = "block";
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+            currentStreamRef = stream;
+            video.srcObject = stream;
+            document.getElementById('snapBtn').style.display = 'flex';
         } catch (err) {
-            // Flexible fallback option if ideal constraints fail
-            try {
-                streamRef = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-                video.srcObject = streamRef; 
-                video.style.display = "block";
-                document.getElementById('startCamBtn').style.display = "none"; 
-                document.getElementById('captureBtn').style.display = "block";
-            } catch(e) {
-                alert("Camera access error. If you are opening this via your phone, make sure you typed the exact local IP address in your browser url field, not 'localhost'.");
-            }
+            alert("Camera access blocked. Please check your system permissions or use the Attach from Gallery option.");
         }
     }
 
-    function captureSnapshot() {
-        const video = document.getElementById('video'); const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth || 640; canvas.height = video.videoHeight || 480;
-        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-        imageDataUrl = canvas.toDataURL('image/jpeg', 0.6);
-        const preview = document.getElementById('photoPreview'); preview.src = imageDataUrl; preview.style.display = "block";
-        video.style.display = "none"; if (streamRef) streamRef.getTracks().forEach(t => t.stop());
-        document.getElementById('captureBtn').style.display = "none"; document.getElementById('startCamBtn').innerText = "🔄 Retake"; document.getElementById('startCamBtn').style.display = "block";
+    function takeSnapshot() {
+        const video = document.getElementById('cameraView');
+        const img = document.getElementById('imagePreview');
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth || 640;
+        canvas.height = video.videoHeight || 480;
+        const ctx = canvas.getContext('2d');
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        finalCapturedImageBase64 = canvas.toDataURL('image/jpeg');
+        img.src = finalCapturedImageBase64;
+        img.style.display = 'block';
+        video.style.display = 'none';
+        document.getElementById('snapBtn').style.display = 'none';
+        if (currentStreamRef) { currentStreamRef.getTracks().forEach(track => track.stop()); }
+    }
+
+    function triggerGallery() {
+        document.getElementById('galleryInput').click();
+    }
+
+    function handleGalleryUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            finalCapturedImageBase64 = e.target.result;
+            const img = document.getElementById('imagePreview');
+            img.src = finalCapturedImageBase64;
+            img.style.display = 'block';
+            document.getElementById('cameraView').style.display = 'none';
+            document.getElementById('snapBtn').style.display = 'none';
+            if (currentStreamRef) { currentStreamRef.getTracks().forEach(track => track.stop()); }
+        };
+        reader.readAsDataURL(file);
     }
 
     async function publishProduct() {
-        const name = document.getElementById('artisanName').value;
-        const mat = document.getElementById('material').options[document.getElementById('material').selectedIndex].text;
-        const hours = document.getElementById('hoursSpent').value;
-        const stock = document.getElementById('stockCount').value;
+        const pId = document.getElementById('productId').value.trim();
+        const aName = document.getElementById('artisanName').value.trim();
+        const material = getSelectedMaterial();
+        const hours = document.getElementById('hoursInvested').value;
         const price = document.getElementById('priceLabel').value;
-        const story = document.getElementById('story').value;
-        if(!name) { alert("Please enter your name!"); return; }
-        if(!imageDataUrl) {
-            alert(currentLang === 'hi' ? "⚠️ कृपया प्रकाशित करने से पहले अपने शिल्प की एक फोटो खींचें!" : "⚠️ Please snap a photo of your craft before publishing!");
-            return;
-        }
 
-        const pkg = { itemId: currentAssignedId, artisanName: name, material: mat, hoursSpent: hours, stockCount: stock, finalPrice: price, story, image: imageDataUrl };
-        const res = await fetch('/upload', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pkg) });
-        const result = await res.json();
-        if(result.status === "success") {
-            const dataId = await (await fetch('/next-id')).json();
-            const targetUrl = `http://${dataId.ipAddress}:5000/product/${currentAssignedId}`;
-            document.getElementById('qrcode').innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(targetUrl)}">`;
-            document.getElementById('qrResult').style.display = "block";
-        }
+        if(!pId || !aName || !material) { alert("Please complete all fields!"); return; }
+        if(!finalCapturedImageBase64) { alert("Please take a photo or attach an image from your gallery first!"); return; }
+
+        const payload = { id: pId, artisan: aName, material: material, hours: hours, price: price, img: finalCapturedImageBase64 };
+        
+        try {
+            const res = await fetch('/api/sync_product', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            const data = await res.json();
+            if(data.status === "success") {
+                document.getElementById('qrcode').innerHTML = "";
+                new QRCode(document.getElementById('qrcode'), { text: data.qr_data, width: 140, height: 140 });
+                document.getElementById('qrResult').style.display = 'block';
+                document.getElementById('submitBtn').disabled = true;
+            } else { alert("Sync Error: " + data.message); }
+        } catch(e) { alert("Failed to connect to cloud sync stream."); }
     }
 
     function resetForm() {
-        document.getElementById('artisanName').value = ""; document.getElementById('story').value = "";
-        document.getElementById('photoPreview').style.display = "none"; document.getElementById('startCamBtn').innerText = "🎥 Open Camera";
-        imageDataUrl = ""; document.getElementById('qrResult').style.display = "none";
-        fetchNextId(); calculatePrice();
+        document.getElementById('productId').value = "";
+        document.getElementById('artisanName').value = "";
+        document.getElementById('customMaterialInput').value = "";
+        document.getElementById('materialSelect').selectedIndex = 0;
+        toggleMaterialInput();
+        document.getElementById('hoursInvested').value = "5";
+        document.getElementById('priceLabel').value = "50";
+        document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('qrResult').style.display = 'none';
+        document.getElementById('submitBtn').disabled = false;
+        finalCapturedImageBase64 = "";
     }
-    applyLanguage(); fetchNextId();
 </script>
 </body>
 </html>
