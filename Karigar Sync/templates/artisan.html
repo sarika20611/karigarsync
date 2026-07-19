@@ -6,36 +6,108 @@
     <title>Heritage Creator Studio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #8e44ad; --bg: #f5f6fa; --text: #2c3e50; }
+        :root { 
+            --primary: #a855f7; 
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --card-bg: #1e293b;
+            --text: #f8fafc; 
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
-        .studio-card { background: white; width: 100%; max-width: 500px; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        body { 
+            background: var(--bg-gradient); 
+            color: var(--text); 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh;
+        }
+        .nav-header {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .home-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .home-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .lang-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .studio-card { 
+            background: var(--card-bg); 
+            width: 100%; 
+            max-width: 500px; 
+            padding: 25px; 
+            border-radius: 16px; 
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
+        }
         .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { color: var(--primary); font-size: 24px; margin-bottom: 5px; }
+        .header h1 { color: #f472b6; font-size: 24px; margin-bottom: 5px; }
+        .header p { color: var(--text-secondary); font-size: 14px; }
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
-        .form-control { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; transition: 0.3s; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: var(--text-secondary); }
+        .form-control { 
+            width: 100%; 
+            padding: 12px; 
+            background: #0f172a;
+            border: 2px solid var(--border); 
+            color: var(--text);
+            border-radius: 8px; 
+            font-size: 16px; 
+            transition: 0.3s; 
+        }
         .form-control:focus { border-color: var(--primary); outline: none; }
+        select.form-control option { background: #0f172a; color: var(--text); }
         .base-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .cam-btn { background: #34495e; color: white; margin-bottom: 10px; }
-        .gallery-btn { background: #7f8c8d; color: white; margin-bottom: 15px; }
+        .cam-btn { background: #38bdf8; color: #0f172a; margin-bottom: 10px; }
+        .gallery-btn { background: #475569; color: white; margin-bottom: 15px; border: 1px solid var(--border); }
         .publish-btn { background: var(--primary); color: white; margin-top: 10px; }
-        #cameraView, #imagePreview { width: 100%; border-radius: 8px; display: none; margin-top: 10px; transform: scaleX(-1); }
+        #cameraView, #imagePreview { width: 100%; border-radius: 8px; display: none; margin-top: 10px; transform: scaleX(-1); border: 2px solid var(--border); }
         #imagePreview { transform: none; }
-        #qrResult { margin-top: 25px; padding: 20px; border: 2px dashed #dcdde1; border-radius: 12px; text-align: center; display: none; }
-        #qrcode { display: flex; justify-content: center; margin: 15px 0; }
+        #qrResult { margin-top: 25px; padding: 20px; border: 2px dashed var(--primary); background: rgba(168, 85, 247, 0.05); border-radius: 12px; text-align: center; display: none; }
+        #qrcode { display: flex; justify-content: center; margin: 15px 0; background: white; padding: 10px; border-radius: 8px; width: fit-content; margin: 15px auto; }
         .custom-material-box { display: none; margin-top: 10px; }
     </style>
 </head>
 <body>
 
+<div class="nav-header">
+    <a href="/" class="home-btn"><i class="fa-solid fa-house"></i> <span id="btnHomeText">Go to Home</span></a>
+    <button class="lang-btn" onclick="toggleLanguage()" id="langToggleBtn">हिन्दी</button>
+</div>
+
 <div class="studio-card">
     <div class="header">
         <h1 id="titleText">✨ Heritage Creator Studio</h1>
-        <p>Digitize your handmade craft items instantly</p>
+        <p id="subTitleText">Digitize your handmade craft items instantly</p>
     </div>
 
-    <!-- Hidden file elements for handling images -->
     <input type="file" id="galleryInput" accept="image/*" style="display: none;" onchange="handleGalleryUpload(event)">
 
     <div class="form-group">
@@ -51,12 +123,12 @@
     <div class="form-group">
         <label id="materialLabel">Craft Material Used</label>
         <select id="materialSelect" class="form-control" onchange="toggleMaterialInput()">
-            <option value="Terracotta Clay">Terracotta Clay</option>
-            <option value="Natural Jute">Natural Jute</option>
-            <option value="Raw Bamboo/Wood">Raw Bamboo/Wood</option>
-            <option value="Woolen Knits">Woolen Knits/Crochet</option>
-            <option value="Soft Felt Fabric">Soft Felt Fabric</option>
-            <option value="CUSTOM">Other (Type Your Own...)</option>
+            <option value="Terracotta Clay" id="opt1">Terracotta Clay</option>
+            <option value="Natural Jute" id="opt2">Natural Jute</option>
+            <option value="Raw Bamboo/Wood" id="opt3">Raw Bamboo/Wood</option>
+            <option value="Woolen Knits" id="opt4">Woolen Knits/Crochet</option>
+            <option value="Soft Felt Fabric" id="opt5">Soft Felt Fabric</option>
+            <option value="CUSTOM" id="opt6">Other (Type Your Own...)</option>
         </select>
         <div id="customMaterialWrapper" class="custom-material-box">
             <input type="text" id="customMaterialInput" class="form-control" placeholder="Enter your custom material name">
@@ -68,27 +140,27 @@
         <input type="number" id="hoursInvested" class="form-control" min="1" max="50" value="5" oninput="calculateDynamicPrice()">
     </div>
 
-    <div class="form-group" style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-        <label id="lblPrice" style="margin-bottom: 2px;">Final Listing Price (Customizable)</label>
-        <span style="font-size: 18px; font-weight: bold; color: #27ae60;">₹ <input type="number" id="priceLabel" value="50" style="font-size: 18px; font-weight: bold; color: #27ae60; border: none; background: transparent; width: 80px;" oninput="restrictCustomPrice()"></span>
+    <div class="form-group" style="background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+        <label id="lblPrice" style="margin-bottom: 5px;">Final Listing Price (Customizable)</label>
+        <span style="font-size: 18px; font-weight: bold; color: #4ade80;">₹ <input type="number" id="priceLabel" value="50" style="font-size: 18px; font-weight: bold; color: #4ade80; border: none; background: transparent; width: 80px;" oninput="restrictCustomPrice()"></span>
     </div>
 
     <div class="form-group">
-        <label>Product Visual Capture</label>
-        <button class="base-btn cam-btn" onclick="startCamera()"><i class="fa-solid fa-camera"></i> Open Camera</button>
-        <button class="base-btn gallery-btn" onclick="triggerGallery()"><i class="fa-solid fa-folder-open"></i> Attach from Gallery</button>
+        <label id="visualLabel">Product Visual Capture</label>
+        <button class="base-btn cam-btn" onclick="startCamera()"><i class="fa-solid fa-camera"></i> <span id="btnCamText">Open Camera</span></button>
+        <button class="base-btn gallery-btn" onclick="triggerGallery()"><i class="fa-solid fa-folder-open"></i> <span id="btnGalText">Attach from Gallery</span></button>
         <video id="cameraView" autoplay playsinline></video>
         <img id="imagePreview" alt="Captured preview">
-        <button class="base-btn cam-btn" id="snapBtn" style="display:none; margin-top:10px; background:#e74c3c;" onclick="takeSnapshot()"><i class="fa-solid fa-circle"></i> Capture Photo</button>
+        <button class="base-btn" id="snapBtn" style="display:none; margin-top:10px; background:#ef4444; color:white;" onclick="takeSnapshot()"><i class="fa-solid fa-circle"></i> <span id="btnSnapText">Capture Photo</span></button>
     </div>
 
-    <button class="base-btn publish-btn" id="submitBtn" onclick="publishProduct()">✨ Publish & Generate QR</button>
+    <button class="base-btn publish-btn" id="submitBtn" onclick="publishProduct()">✨ <span id="btnPublishText">Publish & Generate QR</span></button>
 
     <div id="qrResult">
         <h3 id="successTitle">✨ Live Sync Successful!</h3>
         <div id="qrcode"></div>
-        <button class="base-btn" style="background:#2c3e50; margin-bottom: 10px;" id="nextItemBtn" onclick="resetForm()">Add Next Item</button>
-        <a href="/buyer" class="base-btn" style="background:#27ae60; text-decoration:none; display:block;" id="goToMarketBtn">🛒 Go to Marketplace</a>
+        <button class="base-btn" style="background:#475569; color: white; margin-bottom: 10px;" id="nextItemBtn" onclick="resetForm()">Add Next Item</button>
+        <a href="/buyer" class="base-btn" style="background:#22c55e; color: white; text-decoration:none; display:block;" id="goToMarketBtn">🛒 Go to Marketplace</a>
     </div>
 </div>
 
@@ -97,23 +169,77 @@
     let currentStreamRef = null;
     let finalCapturedImageBase64 = "";
     let systemCalculatedBase = 50;
+    let currentLang = localStorage.getItem('selectedLanguage') || 'en';
+
+    const dict = {
+        en: {
+            home: "Go to Home", title: "✨ Heritage Creator Studio", subtitle: "Digitize your handmade craft items instantly",
+            id: "Assigned Product ID", artisan: "Artisan Name", material: "Craft Material Used",
+            hours: "Hours Invested (Max 50 Hours)", price: "Final Listing Price (Customizable)",
+            visual: "Product Visual Capture", cam: "Open Camera", gallery: "Attach from Gallery",
+            snap: "Capture Photo", publish: "Publish & Generate QR", success: "✨ Live Sync Successful!",
+            next: "Add Next Item", market: "🛒 Go to Marketplace", customPlaceholder: "Enter your custom material name",
+            o1: "Terracotta Clay", o2: "Natural Jute", o3: "Raw Bamboo/Wood", o4: "Woolen Knits/Crochet", o5: "Soft Felt Fabric", o6: "Other (Type Your Own...)"
+        },
+        hi: {
+            home: "मुख्य पृष्ठ पर जाएं", title: "✨ कारीगर स्टूडियो", subtitle: "अपने हाथ से बने सामान को तुरंत लाइव स्टोर पर डालें",
+            id: "आइटम नंबर (Product ID)", artisan: "आपका नाम", material: "बनाने में इस्तेमाल की गई सामग्री",
+            hours: "बनाने में लगे घंटे (अधिकतम 50 घंटे)", price: "अंतिम बिक्री मूल्य (बदला जा सकता है)",
+            visual: "सामान की फोटो लें", cam: "कैमरा खोलें", gallery: "गैलरी से अपलोड करें",
+            snap: "फोटो खींचें", publish: "सामान अपलोड करें और QR बनाएं", success: "✨ सामान सफलतापूर्वक जुड़ गया!",
+            next: "अगला सामान जोड़ें", market: "🛒 मार्केटप्लेस पर जाएं", customPlaceholder: "अपनी सामग्री का नाम लिखें",
+            o1: "टेराकोटा मिट्टी (Clay)", o2: "प्राकृतिक जूट (Jute)", o3: "बांस / लकड़ी (Wood)", o4: "ऊनी बुनाई / क्रोशिया", o5: "मुलायम फेल्ट कपड़ा", o6: "अन्य (खुद नाम लिखें...)"
+        }
+    };
+
+    function applyTranslations() {
+        const d = dict[currentLang];
+        document.getElementById('btnHomeText').innerText = d.home;
+        document.getElementById('titleText').innerText = d.title;
+        document.getElementById('subTitleText').innerText = d.subtitle;
+        document.getElementById('idLabel').innerText = d.id;
+        document.getElementById('artisanLabel').innerText = d.artisan;
+        document.getElementById('materialLabel').innerText = d.material;
+        document.getElementById('hoursLabel').innerText = d.hours;
+        document.getElementById('lblPrice').innerText = d.price;
+        document.getElementById('visualLabel').innerText = d.visual;
+        document.getElementById('btnCamText').innerText = d.cam;
+        document.getElementById('btnGalText').innerText = d.gallery;
+        document.getElementById('btnSnapText').innerText = d.snap;
+        document.getElementById('btnPublishText').innerText = d.publish;
+        document.getElementById('successTitle').innerText = d.success;
+        document.getElementById('nextItemBtn').innerText = d.next;
+        document.getElementById('goToMarketBtn').innerText = d.market;
+        document.getElementById('customMaterialInput').placeholder = d.customPlaceholder;
+        
+        document.getElementById('opt1').innerText = d.o1;
+        document.getElementById('opt2').innerText = d.o2;
+        document.getElementById('opt3').innerText = d.o3;
+        document.getElementById('opt4').innerText = d.o4;
+        document.getElementById('opt5').innerText = d.o5;
+        document.getElementById('opt6').innerText = d.o6;
+
+        document.getElementById('langToggleBtn').innerText = currentLang === 'en' ? 'हिन्दी' : 'English';
+    }
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'hi' : 'en';
+        localStorage.setItem('selectedLanguage', currentLang);
+        applyTranslations();
+    }
 
     function toggleMaterialInput() {
         const selectValue = document.getElementById('materialSelect').value;
         const customWrapper = document.getElementById('customMaterialWrapper');
-        if (selectValue === 'CUSTOM') {
-            customWrapper.style.display = 'block';
-        } else {
-            customWrapper.style.display = 'none';
-        }
+        customWrapper.style.display = (selectValue === 'CUSTOM') ? 'block' : 'none';
     }
 
     function getSelectedMaterial() {
         const selectValue = document.getElementById('materialSelect').value;
         if (selectValue === 'CUSTOM') {
-            return document.getElementById('customMaterialInput').value || "Handcrafted Material";
+            return document.getElementById('customMaterialInput').value || (currentLang === 'en' ? "Handcrafted Material" : "हस्तनिर्मित सामग्री");
         }
-        return selectValue;
+        return document.getElementById('materialSelect').options[document.getElementById('materialSelect').selectedIndex].text;
     }
 
     function calculateDynamicPrice() {
@@ -141,7 +267,7 @@
             video.srcObject = stream;
             document.getElementById('snapBtn').style.display = 'flex';
         } catch (err) {
-            alert("Camera access blocked. Please check your system permissions or use the Attach from Gallery option.");
+            alert(currentLang === 'en' ? "Camera blocked. Try using the Gallery upload option." : "कैमरा ब्लॉक है। कृपया गैलरी ऑप्शन का इस्तेमाल करें।");
         }
     }
 
@@ -190,8 +316,14 @@
         const hours = document.getElementById('hoursInvested').value;
         const price = document.getElementById('priceLabel').value;
 
-        if(!pId || !aName || !material) { alert("Please complete all fields!"); return; }
-        if(!finalCapturedImageBase64) { alert("Please take a photo or attach an image from your gallery first!"); return; }
+        if(!pId || !aName || !material) { 
+            alert(currentLang === 'en' ? "Please complete all fields!" : "कृपया सभी खाली डिब्बे भरें!"); 
+            return; 
+        }
+        if(!finalCapturedImageBase64) { 
+            alert(currentLang === 'en' ? "Please take a photo or attach an image!" : "कृपया फोटो खींचें या गैलरी से अपलोड करें!"); 
+            return; 
+        }
 
         const payload = { id: pId, artisan: aName, material: material, hours: hours, price: price, img: finalCapturedImageBase64 };
         
@@ -204,7 +336,7 @@
                 document.getElementById('qrResult').style.display = 'block';
                 document.getElementById('submitBtn').disabled = true;
             } else { alert("Sync Error: " + data.message); }
-        } catch(e) { alert("Failed to connect to cloud sync stream."); }
+        } catch(e) { alert("Connection Error"); }
     }
 
     function resetForm() {
@@ -220,6 +352,9 @@
         document.getElementById('submitBtn').disabled = false;
         finalCapturedImageBase64 = "";
     }
+
+    // Initialize translations on load
+    applyTranslations();
 </script>
 </body>
 </html>
