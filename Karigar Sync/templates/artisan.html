@@ -83,6 +83,7 @@
             transition: 0.3s; 
         }
         .form-control:focus { border-color: var(--primary); outline: none; }
+        .form-control:disabled { background: #1e293b; color: #a855f7; font-weight: bold; cursor: not-allowed; }
         select.form-control option { background: #0f172a; color: var(--text); }
         .base-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .cam-btn { background: #38bdf8; color: #0f172a; margin-bottom: 10px; }
@@ -111,8 +112,8 @@
     <input type="file" id="galleryInput" accept="image/*" style="display: none;" onchange="handleGalleryUpload(event)">
 
     <div class="form-group">
-        <label id="idLabel">Assigned Product ID</label>
-        <input type="text" id="productId" class="form-control" placeholder="e.g. ART-8832" required>
+        <label id="idLabel">Generated Product ID</label>
+        <input type="text" id="productId" class="form-control" disabled>
     </div>
 
     <div class="form-group">
@@ -174,7 +175,7 @@
     const dict = {
         en: {
             home: "Go to Home", title: "✨ Heritage Creator Studio", subtitle: "Digitize your handmade craft items instantly",
-            id: "Assigned Product ID", artisan: "Artisan Name", material: "Craft Material Used",
+            id: "Generated Product ID", artisan: "Artisan Name", material: "Craft Material Used",
             hours: "Hours Invested (Max 50 Hours)", price: "Final Listing Price (Customizable)",
             visual: "Product Visual Capture", cam: "Open Camera", gallery: "Attach from Gallery",
             snap: "Capture Photo", publish: "Publish & Generate QR", success: "✨ Live Sync Successful!",
@@ -183,7 +184,7 @@
         },
         hi: {
             home: "मुख्य पृष्ठ पर जाएं", title: "✨ कारीगर स्टूडियो", subtitle: "अपने हाथ से बने सामान को तुरंत लाइव स्टोर पर डालें",
-            id: "आइटम नंबर (Product ID)", artisan: "आपका नाम", material: "बनाने में इस्तेमाल की गई सामग्री",
+            id: "ऑटो-जेनरेटेड आइटम नंबर", artisan: "आपका नाम", material: "बनाने में इस्तेमाल की गई सामग्री",
             hours: "बनाने में लगे घंटे (अधिकतम 50 घंटे)", price: "अंतिम बिक्री मूल्य (बदला जा सकता है)",
             visual: "सामान की फोटो लें", cam: "कैमरा खोलें", gallery: "गैलरी से अपलोड करें",
             snap: "फोटो खींचें", publish: "सामान अपलोड करें और QR बनाएं", success: "✨ सामान सफलतापूर्वक जुड़ गया!",
@@ -191,6 +192,11 @@
             o1: "टेराकोटा मिट्टी (Clay)", o2: "प्राकृतिक जूट (Jute)", o3: "बांस / लकड़ी (Wood)", o4: "ऊनी बुनाई / क्रोशिया", o5: "मुलायम फेल्ट कपड़ा", o6: "अन्य (खुद नाम लिखें...)"
         }
     };
+
+    function generateRandomID() {
+        const randNum = Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('productId').value = "ART-" + randNum;
+    }
 
     function applyTranslations() {
         const d = dict[currentLang];
@@ -340,7 +346,7 @@
     }
 
     function resetForm() {
-        document.getElementById('productId').value = "";
+        generateRandomID();
         document.getElementById('artisanName').value = "";
         document.getElementById('customMaterialInput').value = "";
         document.getElementById('materialSelect').selectedIndex = 0;
@@ -353,7 +359,8 @@
         finalCapturedImageBase64 = "";
     }
 
-    // Initialize translations on load
+    // Initialize ID and translations on load
+    generateRandomID();
     applyTranslations();
 </script>
 </body>
