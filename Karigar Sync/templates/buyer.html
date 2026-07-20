@@ -17,144 +17,139 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background: var(--bg); color: var(--text); min-height: 100vh; }
         
-        /* Navigation Header */
         .navbar { background: var(--card-bg); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
         .logo { font-size: 20px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .nav-actions { display: flex; align-items: center; gap: 15px; }
+        .nav-actions { display: flex; align-items: center; gap: 10px; }
         .nav-btn { background: rgba(255,255,255,0.05); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; text-decoration: none; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
         .cart-trigger { background: var(--primary); color: white; border: none; font-weight: bold; position: relative; }
         .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+        .lang-btn { background: #a855f7; color: white; border: none; }
 
-        /* Auth Panel Screen */
         .auth-container { display: flex; justify-content: center; align-items: center; padding: 40px 20px; min-height: calc(100vh - 70px); }
         .auth-card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; }
-        .auth-card h2 { margin-bottom: 10px; color: var(--primary); }
-        .auth-card p { color: var(--text-secondary); margin-bottom: 20px; font-size: 14px; }
         .form-group { text-align: left; margin-bottom: 15px; }
         .form-group label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
         .form-control { width: 100%; padding: 12px; background: #0f172a; border: 2px solid var(--border); color: var(--text); border-radius: 8px; font-size: 16px; }
-        .form-control:focus { border-color: var(--primary); outline: none; }
         .btn-block { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
 
-        /* Main Marketplace Grid (Amazon Style) */
         .market-container { max-width: 1200px; margin: 0 auto; padding: 25px 20px; display: none; }
-        .welcome-banner { margin-bottom: 25px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .product-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.2s; }
         .product-card:hover { transform: translateY(-4px); border-color: var(--primary); }
-        .img-container { width: 100%; height: 200px; background: #0f172a; position: relative; }
+        .img-container { width: 100%; height: 200px; background: #0f172a; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; }
         .prod-info { padding: 15px; }
-        .prod-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .prod-meta { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
+        .prod-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
         .price-tag { font-size: 18px; font-weight: bold; color: #4ade80; }
 
-        /* Separate Details Page/Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 200; padding: 20px; }
-        .details-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 600px; overflow: hidden; position: relative; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .close-modal { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .details-img-box { width: 100%; height: 300px; background: #0f172a; }
+        /* Full Responsive Scrolling Modal Overlay */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: flex-start; z-index: 200; overflow-y: auto; padding: 20px; }
+        .details-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 600px; overflow: hidden; position: relative; margin: 30px auto; }
+        .close-modal { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 22px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .details-img-box { width: 100%; height: 280px; background: #0f172a; }
         .details-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .details-content { padding: 25px; }
-        .details-badge { display: inline-block; padding: 4px 10px; background: rgba(34,197,94,0.1); color: var(--primary); font-size: 12px; font-weight: bold; border-radius: 6px; margin-bottom: 10px; }
-        .details-story { background: #0f172a; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary); font-style: italic; margin: 15px 0; color: #cbd5e1; font-size: 14px; line-height: 1.5; }
+        .details-content { padding: 20px; }
+        .details-story { background: #0f172a; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary); margin: 15px 0; color: #cbd5e1; font-size: 14px; line-height: 1.5; }
 
-        /* Floating Sidebar Cart Drawer */
-        .cart-drawer { position: fixed; top: 0; right: -360px; width: 360px; height: 100%; background: var(--card-bg); border-left: 1px solid var(--border); box-shadow: -10px 0 30px rgba(0,0,0,0.5); z-index: 250; transition: 0.3s ease; display: flex; flex-direction: column; }
+        /* Amazon Style Customer Reviews Section */
+        .reviews-section { margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; }
+        .review-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: var(--primary); }
+        .review-box { background: #0f172a; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border); }
+        .review-user { font-weight: bold; font-size: 13px; color: #f472b6; margin-bottom: 4px; }
+        .review-stars { color: #f59e0b; font-size: 12px; margin-bottom: 6px; }
+        .review-text { font-size: 13px; color: #cbd5e1; }
+
+        .cart-drawer { position: fixed; top: 0; right: -360px; width: 360px; height: 100%; background: var(--card-bg); border-left: 1px solid var(--border); z-index: 250; transition: 0.3s ease; display: flex; flex-direction: column; }
         .cart-drawer.open { right: 0; }
         .cart-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
         .cart-items-list { padding: 20px; flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 12px; border-radius: 8px; }
-        .cart-item-detail h4 { font-size: 14px; font-weight: bold; }
         .remove-item-btn { background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 16px; }
-        .cart-footer { padding: 20px; border-top: 1px solid var(--border); background: #0f172a; }
-        .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 15px; }
-        .no-products { grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 40px; }
     </style>
 </head>
 <body>
 
-    <!-- Main Navigation Bar -->
     <nav class="navbar">
-        <div class="logo"><i class="fa-solid fa-shop"></i> Karigar Market</div>
+        <div class="logo"><i class="fa-solid fa-shop"></i> <span id="brandLogoText">Karigar Market</span></div>
         <div class="nav-actions">
-            <a href="/" class="nav-btn"><i class="fa-solid fa-house"></i> Home</a>
+            <button class="nav-btn lang-btn" onclick="toggleLanguage()" id="langToggleBtn">हिन्दी</button>
+            <a href="/" class="nav-btn"><i class="fa-solid fa-house"></i> <span id="navHomeText">Home</span></a>
+            <button class="nav-btn" id="signOutBtn" style="display: none; background: #b91c1c;" onclick="processSignOut()"><i class="fa-solid fa-right-from-bracket"></i> <span id="navSignOutText">Sign Out</span></button>
             <button class="nav-btn cart-trigger" id="cartTriggerBtn" style="display: none;" onclick="toggleCartDrawer(true)">
-                <i class="fa-solid fa-cart-shopping"></i> Cart
+                <i class="fa-solid fa-cart-shopping"></i> <span id="navCartText">Cart</span>
                 <span class="cart-count" id="globalCartCount">0</span>
             </button>
         </div>
     </nav>
 
-    <!-- Isolated Buyer Registration / Login Portal -->
     <div class="auth-container" id="authPortal">
         <div class="auth-card">
-            <h2>🛍️ Buyer Verification</h2>
-            <p>Access the localized digital heritage marketplace</p>
+            <h2 id="loginTitleText">🛍️ Buyer Verification</h2>
+            <p id="loginSubText">Access the localized digital heritage marketplace</p>
             <div class="form-group">
-                <label>Full Name</label>
+                <label id="lblLoginName">Full Name</label>
                 <input type="text" id="buyerName" class="form-control" placeholder="Enter your full name">
             </div>
             <div class="form-group">
-                <label>Mobile Number</label>
+                <label id="lblLoginPhone">Mobile Number</label>
                 <input type="number" id="buyerPhone" class="form-control" placeholder="10-digit phone number">
             </div>
-            <button class="btn-block" onclick="processSecureLogin()">Access Marketplace</button>
+            <button class="btn-block" id="btnLoginSubmit" onclick="processSecureLogin()">Access Marketplace</button>
         </div>
     </div>
 
-    <!-- Active Storefront Container -->
     <div class="market-container" id="marketView">
         <div class="welcome-banner">
             <h2 id="greetMessage">Welcome, Buyer!</h2>
-            <p style="color: var(--text-secondary); font-size: 14px;">Browse authentic handcrafted works directly sourced from local artisans.</p>
+            <p id="marketSubText" style="color: var(--text-secondary); font-size: 14px;">Browse authentic handcrafted works directly sourced from local artisans.</p>
         </div>
-        <div class="product-grid" id="marketStorefrontGrid">
-            <!-- Dynamically populated items appear here -->
-        </div>
+        <div class="product-grid" id="marketStorefrontGrid"></div>
     </div>
 
-    <!-- Amazon Style Separate Details Page Overlay -->
+    <!-- Product Details Modal Page -->
     <div class="modal-overlay" id="productDetailsModal" onclick="closeProductModal(event)">
         <div class="details-card" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closeProductModal(null)">×</button>
             <div class="details-img-box">
-                <img id="modalImg" src="" alt="Handicraft visualization">
+                <img id="modalImg" src="" alt="Craft image">
             </div>
             <div class="details-content">
-                <span class="details-badge" id="modalMaterial">Material</span>
                 <h2 id="modalTitle" style="margin-bottom: 5px;">Product Title</h2>
-                <p id="modalMeta" style="color: var(--text-secondary); font-size: 13px; margin-bottom: 15px;">By Master Artisan</p>
-                <div class="details-story" id="modalStory">
-                    Artisan backstory text goes here.
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                <p id="modalMeta" style="color: var(--text-secondary); font-size: 13px; margin-bottom: 12px;">Meta details</p>
+                <div class="details-story" id="modalStory">Description</div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px; align-items: center; justify-content: space-between;">
                     <div>
-                        <p style="font-size: 12px; color: var(--text-secondary);">Price Tag</p>
+                        <p style="font-size: 12px; color: var(--text-secondary);" id="lblPriceText">Price Tag</p>
                         <h3 id="modalPrice" style="font-size: 24px; color: #4ade80;">₹0</h3>
                     </div>
-                    <button class="btn-block" id="modalAddToCartBtn" style="width: auto; padding: 12px 25px;" onclick="addItemToCart()">Add to Basket</button>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-block" id="modalAddToCartBtn" style="background:#4b5563; padding: 12px 18px;" onclick="addItemToCart()">Add to Cart</button>
+                        <button class="btn-block" id="modalBuyNowBtn" style="background:#22c55e; padding: 12px 18px;" onclick="instantBuyNow()">Buy Now</button>
+                    </div>
+                </div>
+
+                <!-- Customer Reviews Feed -->
+                <div class="reviews-section">
+                    <div class="review-title" id="lblReviewsTitle">Customer Reviews & Ratings</div>
+                    <div id="reviewsContainer"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Floating Cart Drawer Sidebar -->
     <div class="cart-drawer" id="sidebarCartDrawer">
         <div class="cart-header">
-            <h3>🛒 Shopping Basket</h3>
+            <h3 id="drawerCartTitle">🛒 Shopping Basket</h3>
             <button class="nav-btn" onclick="toggleCartDrawer(false)">Close</button>
         </div>
-        <div class="cart-items-list" id="cartItemsContainer">
-            <!-- Row tracking items -->
-        </div>
+        <div class="cart-items-list" id="cartItemsContainer"></div>
         <div class="cart-footer">
             <div class="total-row">
-                <span>Total Due:</span>
+                <span id="lblTotalText">Total Due:</span>
                 <span id="cartTotalPrice">₹0</span>
             </div>
-            <button class="btn-block" style="background: #22c55e;" onclick="checkoutCart()">Instant Secure Checkout</button>
+            <button class="btn-block" id="btnCartCheckout" style="background: #22c55e;" onclick="checkoutCart()">Instant Secure Checkout</button>
         </div>
     </div>
 
@@ -162,60 +157,122 @@
     let activeProductsList = [];
     let userCart = [];
     let currentViewingProductId = null;
+    let currentLang = localStorage.getItem('selectedLanguage') || 'en';
 
-    // Run layout evaluation immediately on page load
+    const dict = {
+        en: {
+            logo: "Karigar Market", home: "Home", signout: "Sign Out", cart: "Cart",
+            loginTitle: "🛍️ Buyer Verification", loginSub: "Access the localized digital heritage marketplace",
+            nameLabel: "Full Name", phoneLabel: "Mobile Number", loginBtn: "Access Marketplace",
+            marketSub: "Browse authentic handcrafted works directly sourced from local artisans.",
+            priceLabel: "Price Tag", addCart: "Add to Cart", buyNow: "Buy Now",
+            reviewsTitle: "Customer Reviews & Ratings", basketTitle: "🛒 Shopping Basket",
+            totalLabel: "Total Due:", checkoutBtn: "Instant Secure Checkout", noProducts: "No handicrafts live right now"
+        },
+        hi: {
+            logo: "कारीगर मार्केट", home: "मुख्य पृष्ठ", signout: "लॉग आउट", cart: "कार्ट",
+            loginTitle: "🛍️ खरीदार सत्यापन", loginSub: "स्थानीय हस्तशिल्प डिजिटल मार्केटप्लेस पर जाएं",
+            nameLabel: "पूरा नाम", phoneLabel: "मोबाइल नंबर", loginBtn: "मार्केटप्लेस खोलें",
+            marketSub: "स्थानीय कारीगरों द्वारा सीधे बनाए गए प्रामाणिक हस्तशिल्प देखें।",
+            priceLabel: "कीमत", addCart: "कार्ट में जोड़ें", buyNow: "अभी खरीदें",
+            reviewsTitle: "ग्राहक समीक्षाएं और रेटिंग", basketTitle: "🛒 आपकी शॉपिंग बास्केट",
+            totalLabel: "कुल मूल्य:", checkoutBtn: "सुरक्षित चेकआउट करें", noProducts: "वर्तमान में कोई हस्तशिल्प लाइव नहीं है"
+        }
+    };
+
     window.onload = function() {
+        applyTranslations();
         checkLocalSession();
     };
 
+    function applyTranslations() {
+        const d = dict[currentLang];
+        document.getElementById('brandLogoText').innerText = d.logo;
+        document.getElementById('navHomeText').innerText = d.home;
+        document.getElementById('navSignOutText').innerText = d.signout;
+        document.getElementById('navCartText').innerText = d.cart;
+        document.getElementById('loginTitleText').innerText = d.loginTitle;
+        document.getElementById('loginSubText').innerText = d.loginSub;
+        document.getElementById('lblLoginName').innerText = d.nameLabel;
+        document.getElementById('lblLoginPhone').innerText = d.phoneLabel;
+        document.getElementById('btnLoginSubmit').innerText = d.loginBtn;
+        document.getElementById('marketSubText').innerText = d.marketSub;
+        document.getElementById('lblPriceText').innerText = d.priceLabel;
+        document.getElementById('modalAddToCartBtn').innerText = d.addCart;
+        document.getElementById('modalBuyNowBtn').innerText = d.buyNow;
+        document.getElementById('lblReviewsTitle').innerText = d.reviewsTitle;
+        document.getElementById('drawerCartTitle').innerText = d.basketTitle;
+        document.getElementById('lblTotalText').innerText = d.totalLabel;
+        document.getElementById('btnCartCheckout').innerText = d.checkoutBtn;
+        document.getElementById('langToggleBtn').innerText = currentLang === 'en' ? 'हिन्दी' : 'English';
+        renderStorefrontGrid();
+    }
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'hi' : 'en';
+        localStorage.setItem('selectedLanguage', currentLang);
+        applyTranslations();
+    }
+
     function checkLocalSession() {
-        const locallyStoredUser = localStorage.getItem('karigar_buyer_session');
-        if (locallyStoredUser) {
-            const userData = JSON.parse(locallyStoredUser);
+        const session = localStorage.getItem('karigar_buyer_session');
+        if (session) {
+            const user = JSON.parse(session);
             document.getElementById('authPortal').style.display = 'none';
             document.getElementById('marketView').style.display = 'block';
             document.getElementById('cartTriggerBtn').style.display = 'flex';
-            document.getElementById('greetMessage').innerText = `✨ Namaste, ${userData.username}!`;
+            document.getElementById('signOutBtn').style.display = 'flex';
+            document.getElementById('greetMessage').innerText = currentLang === 'en' ? `✨ Welcome, ${user.username}!` : `✨ नमस्ते, ${user.username}!`;
             loadMarketplaceItems();
         }
     }
 
     async function processSecureLogin() {
-        const uName = document.getElementById('buyerName').value.trim();
-        const uPhone = document.getElementById('buyerPhone').value.trim();
+        const name = document.getElementById('buyerName').value.trim();
+        const phone = document.getElementById('buyerPhone').value.trim();
+        if(!name || !phone) return;
 
-        if (!uName || !uPhone) { alert("Please complete name and contact details"); return; }
+        const res = await fetch('/api/buyer_login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: name, phone: phone })
+        });
+        const data = await res.json();
+        if(data.status === "success") {
+            localStorage.setItem('karigar_buyer_session', JSON.stringify(data.user));
+            checkLocalSession();
+        }
+    }
 
-        try {
-            const res = await fetch('/api/buyer_login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: uName, phone: uPhone })
-            });
-            const data = await res.json();
-            if (data.status === "success") {
-                // Securely save login only into this specific browser window!
-                localStorage.setItem('karigar_buyer_session', JSON.stringify(data.user));
-                checkLocalSession();
-            } else { alert("Login failed"); }
-        } catch (e) { alert("Error authenticating session"); }
+    function processSignOut() {
+        localStorage.removeItem('karigar_buyer_session');
+        document.getElementById('authPortal').style.display = 'flex';
+        document.getElementById('marketView').style.display = 'none';
+        document.getElementById('cartTriggerBtn').style.display = 'none';
+        document.getElementById('signOutBtn').style.display = 'none';
+        userCart = [];
+        updateCartUIDrawer();
     }
 
     async function loadMarketplaceItems() {
-        try {
-            const res = await fetch('/api/get_products');
-            activeProductsList = await res.json();
-            renderStorefrontGrid();
-            checkForScannedQR();
-        } catch (e) { console.error("Error loading products stream"); }
+        const res = await fetch('/api/get_products');
+        activeProductsList = await res.json();
+        renderStorefrontGrid();
+        
+        const scanId = new URLSearchParams(window.location.search).get('scan_id');
+        if(scanId) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+            openProductDetailsPage(scanId);
+        }
     }
 
     function renderStorefrontGrid() {
         const grid = document.getElementById('marketStorefrontGrid');
+        if(!grid) return;
         grid.innerHTML = "";
         
-        if (activeProductsList.length === 0) {
-            grid.innerHTML = `<div class="no-products"><h3>No handicrafts live right now</h3><p>Upload handmade crafts via Artisan Studio to view dynamic sync!</p></div>`;
+        if(activeProductsList.length === 0) {
+            grid.innerHTML = `<div class="no-products"><h3>${dict[currentLang].noProducts}</h3></div>`;
             return;
         }
 
@@ -224,12 +281,10 @@
             card.className = "product-card";
             card.onclick = () => openProductDetailsPage(prod.id);
             card.innerHTML = `
-                <div class="img-container">
-                    <img src="${prod.img}" alt="${prod.material}">
-                </div>
+                <div class="img-container"><img src="${prod.img}"></div>
                 <div class="prod-info">
-                    <div class="prod-title">${prod.material}</div>
-                    <div class="prod-meta">By ${prod.artisan} | ID: ${prod.id}</div>
+                    <div class="prod-title">${prod.name}</div>
+                    <div style="font-size:12px; color:var(--text-secondary); margin-bottom:8px;">By ${prod.artisan} | ${prod.material}</div>
                     <div class="price-tag">₹${prod.price}</div>
                 </div>
             `;
@@ -237,99 +292,81 @@
         });
     }
 
-    function checkForScannedQR() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const scanId = urlParams.get('scan_id');
-        if (scanId) {
-            // Clean URL bar from query parameter parameters safely
-            window.history.replaceState({}, document.title, window.location.pathname);
-            openProductDetailsPage(scanId);
-        }
-    }
+    function openProductDetailsPage(id) {
+        const prod = activeProductsList.find(p => p.id === id);
+        if(!prod) return;
+        currentViewingProductId = id;
 
-    function openProductDetailsPage(productId) {
-        const product = activeProductsList.find(p => p.id === productId);
-        if (!product) return;
+        document.getElementById('modalImg').src = prod.img;
+        document.getElementById('modalTitle').innerText = prod.name;
+        document.getElementById('modalMeta').innerText = `Artisan: ${prod.artisan} | Material: ${prod.material} | ID: ${prod.id}`;
+        document.getElementById('modalStory').innerText = prod.desc;
+        document.getElementById('modalPrice').innerText = `₹${prod.price}`;
 
-        currentViewingProductId = productId;
-        document.getElementById('modalImg').src = product.img;
-        document.getElementById('modalMaterial').innerText = product.material;
-        document.getElementById('modalTitle').innerText = `${product.material} Design`;
-        document.getElementById('modalMeta').innerText = `Handcrafted by Master Artisan ${product.artisan} | ID: ${product.id} (Stock: ${product.stock})`;
-        
-        // Auto-generate customized cultural background story descriptions matching the material dynamically
-        let customArtisanStory = `This exquisite item was designed and sculpted entirely by hand, investing a remarkable total of ${product.hours} calculation hours of traditional effort. Buying directly ensures zero commission cuts go to brokers, sending maximum economic support directly to the artisan's household.`;
-        if (product.material.includes("Mouse")) {
-            customArtisanStory = `Handcrafted by Sunita, a traditional textile artisan. Passed down through generations, her family practiced traditional doll-making using leftover fabric scraps to reduce textile waste. This piece blends age-old running-stitch embroidery techniques with contemporary playful storytelling. Every stitch is placed carefully by hand, breathing life into a little character.`;
-        } else if (product.material.includes("Goose")) {
-            customArtisanStory = `Crafted by Ramesh, a rural artisan specializing in soft-sculpture design. Inspired by the local wildlife and farmsteads surrounding his village, Ramesh uses a specialized layering technique to stitch the wings, giving the plush a realistic yet whimsical look. By utilizing responsibly sourced, natural fibers, this piece brings peaceful countryside charm right home.`;
-        } else if (product.material.includes("Dog") || product.material.includes("Terrier")) {
-            customArtisanStory = `Stitched by a small collaborative of rural women artisans, this plush terrier celebrates the loyalty of local community pets. The artisans meticulously cut out each individual felt pane and use dense blanket-stitching along the seams to ensure the toy is robust and long-lasting.`;
-        } else if (product.material.includes("Mat") || product.material.includes("Crochet") || product.material.includes("Mandala")) {
-            customArtisanStory = `Hand-knit by Meera, a master crochet artisan. This design is inspired by traditional Indian Mandala art, representing unity and the cyclic rhythm of nature. Meera spends upwards of 8 hours continuously looping and counting every tier to form the perfectly symmetrical sunburst patterns using zero-waste, upcycled yarn chains.`;
-        }
+        const revContainer = document.getElementById('reviewsContainer');
+        revContainer.innerHTML = "";
+        prod.reviews.forEach(r => {
+            revContainer.innerHTML += `
+                <div class="review-box">
+                    <div class="review-user">${r.user}</div>
+                    <div class="review-stars">${"★".repeat(r.rating)}</div>
+                    <div class="review-text">${r.comment}</div>
+                </div>
+            `;
+        });
 
-        document.getElementById('modalStory').innerText = customArtisanStory;
-        document.getElementById('modalPrice').innerText = `₹${product.price}`;
         document.getElementById('productDetailsModal').style.display = 'flex';
     }
 
     function closeProductModal(event) {
-        if (!event || event.target === document.getElementById('productDetailsModal') || event.target.className === 'close-modal') {
+        if(!event || event.target === document.getElementById('productDetailsModal')) {
             document.getElementById('productDetailsModal').style.display = 'none';
         }
     }
 
     function toggleCartDrawer(open) {
-        const drawer = document.getElementById('sidebarCartDrawer');
-        if (open) drawer.classList.add('open');
-        else drawer.classList.remove('open');
+        document.getElementById('sidebarCartDrawer').classList.toggle('open', open);
     }
 
     function addItemToCart() {
-        const product = activeProductsList.find(p => p.id === currentViewingProductId);
-        if (!product) return;
-
-        userCart.push(product);
-        updateCartUIDrawer();
-        document.getElementById('productDetailsModal').style.display = 'none';
-        toggleCartDrawer(true);
+        const prod = activeProductsList.find(p => p.id === currentViewingProductId);
+        if(prod) { userCart.push(prod); updateCartUIDrawer(); closeProductModal(); toggleCartDrawer(true); }
     }
 
-    function removeCartItem(index) {
-        userCart.splice(index, 1);
-        updateCartUIDrawer();
+    function instantBuyNow() {
+        const prod = activeProductsList.find(p => p.id === currentViewingProductId);
+        if(prod) {
+            alert(currentLang === 'en' ? `🎉 Order placed successfully for ${prod.name}!` : `🎉 ${prod.name} के लिए आपका ऑर्डर सफलतापूर्वक स्वीकार कर लिया गया है!`);
+            closeProductModal();
+        }
     }
+
+    function removeCartItem(idx) { userCart.splice(idx, 1); updateCartUIDrawer(); }
 
     function updateCartUIDrawer() {
         document.getElementById('globalCartCount').innerText = userCart.length;
         const container = document.getElementById('cartItemsContainer');
         container.innerHTML = "";
-
-        let grandTotal = 0;
-        userCart.forEach((item, index) => {
-            grandTotal += item.price;
-            const row = document.createElement('div');
-            row.className = "cart-item-row";
-            row.innerHTML = `
-                <div class="cart-item-detail">
-                    <h4>${item.material}</h4>
-                    <p style="color: #4ade80; font-size:13px;">₹${item.price}</p>
+        let total = 0;
+        userCart.forEach((item, idx) => {
+            total += item.price;
+            container.innerHTML += `
+                <div class="cart-item-row">
+                    <div>
+                        <h4>${item.name}</h4>
+                        <p style="color:#4ade80;">₹${item.price}</p>
+                    </div>
+                    <button class="remove-item-btn" onclick="removeCartItem(${idx})"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
-                <button class="remove-item-btn" onclick="removeCartItem(${index})"><i class="fa-solid fa-trash-can"></i></button>
             `;
-            container.appendChild(row);
         });
-
-        document.getElementById('cartTotalPrice').innerText = `₹${grandTotal}`;
+        document.getElementById('cartTotalPrice').innerText = `₹${total}`;
     }
 
     function checkoutCart() {
-        if (userCart.length === 0) { alert("Your cart drawer is completely empty!"); return; }
-        alert("🎉 Purchase complete! Order details sent to the artisan stream dashboard securely.");
-        userCart = [];
-        updateCartUIDrawer();
-        toggleCartDrawer(false);
+        if(userCart.length === 0) return;
+        alert(currentLang === 'en' ? "🎉 Order placed successfully!" : "🎉 आपका ऑर्डर सफलतापूर्वक स्वीकार कर लिया गया है!");
+        userCart = []; updateCartUIDrawer(); toggleCartDrawer(false);
     }
 </script>
 </body>
