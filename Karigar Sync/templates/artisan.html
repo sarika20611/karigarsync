@@ -15,84 +15,27 @@
             --border: #334155;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { 
-            background: var(--bg-gradient); 
-            color: var(--text); 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            min-height: 100vh;
-        }
-        .nav-header {
-            width: 100%;
-            max-width: 500px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .home-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text);
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-        }
-        .home-btn:hover { background: rgba(255, 255, 255, 0.2); }
-        .lang-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .studio-card { 
-            background: var(--card-bg); 
-            width: 100%; 
-            max-width: 500px; 
-            padding: 25px; 
-            border-radius: 16px; 
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
-        }
+        body { background: var(--bg-gradient); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .nav-header { width: 100%; max-width: 500px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .home-btn { background: rgba(255, 255, 255, 0.1); color: var(--text); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .lang-btn { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .studio-card { background: var(--card-bg); width: 100%; max-width: 500px; padding: 25px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
         .header { text-align: center; margin-bottom: 25px; }
         .header h1 { color: #f472b6; font-size: 24px; margin-bottom: 5px; }
         .header p { color: var(--text-secondary); font-size: 14px; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: var(--text-secondary); }
-        .form-control { 
-            width: 100%; 
-            padding: 12px; 
-            background: #0f172a;
-            border: 2px solid var(--border); 
-            color: var(--text);
-            border-radius: 8px; 
-            font-size: 16px; 
-            transition: 0.3s; 
-        }
+        .form-control { width: 100%; padding: 12px; background: #0f172a; border: 2px solid var(--border); color: var(--text); border-radius: 8px; font-size: 16px; }
         .form-control:focus { border-color: var(--primary); outline: none; }
         .form-control:disabled { background: #1e293b; color: #a855f7; font-weight: bold; cursor: not-allowed; }
-        select.form-control option { background: #0f172a; color: var(--text); }
-        .base-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .base-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .cam-btn { background: #38bdf8; color: #0f172a; margin-bottom: 10px; }
         .gallery-btn { background: #475569; color: white; margin-bottom: 15px; border: 1px solid var(--border); }
         .publish-btn { background: var(--primary); color: white; margin-top: 10px; }
-        #cameraView, #imagePreview { width: 100%; border-radius: 8px; display: none; margin-top: 10px; transform: scaleX(-1); border: 2px solid var(--border); }
-        #imagePreview { transform: none; }
+        #cameraView, #imagePreview { width: 100%; border-radius: 8px; display: none; margin-top: 10px; border: 2px solid var(--border); }
+        #cameraView { transform: scaleX(-1); }
         #qrResult { margin-top: 25px; padding: 20px; border: 2px dashed var(--primary); background: rgba(168, 85, 247, 0.05); border-radius: 12px; text-align: center; display: none; }
-        #qrcode { display: flex; justify-content: center; margin: 15px 0; background: white; padding: 10px; border-radius: 8px; width: fit-content; margin: 15px auto; }
+        #qrcode { display: flex; justify-content: center; margin: 15px auto; background: white; padding: 10px; border-radius: 8px; width: fit-content; }
         .custom-material-box { display: none; margin-top: 10px; }
     </style>
 </head>
@@ -117,6 +60,11 @@
     </div>
 
     <div class="form-group">
+        <label id="nameLabel">Product Name</label>
+        <input type="text" id="productName" class="form-control" placeholder="e.g. Traditional Clay Diya" required>
+    </div>
+
+    <div class="form-group">
         <label id="artisanLabel">Artisan Name</label>
         <input type="text" id="artisanName" class="form-control" placeholder="Your name" required>
     </div>
@@ -137,13 +85,18 @@
     </div>
 
     <div class="form-group">
+        <label id="descLabel">Product Story / Description</label>
+        <textarea id="productDesc" class="form-control" rows="3" placeholder="Tell the cultural story of this handmade product..." required></textarea>
+    </div>
+
+    <div class="form-group">
         <label id="hoursLabel">Hours Invested (Max 50 Hours)</label>
         <input type="number" id="hoursInvested" class="form-control" min="1" max="50" value="5" oninput="calculateDynamicPrice()">
     </div>
 
     <div class="form-group" style="background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
         <label id="lblPrice" style="margin-bottom: 5px;">Final Listing Price (Customizable)</label>
-        <span style="font-size: 18px; font-weight: bold; color: #4ade80;">₹ <input type="number" id="priceLabel" value="50" style="font-size: 18px; font-weight: bold; color: #4ade80; border: none; background: transparent; width: 80px;" oninput="restrictCustomPrice()"></span>
+        <span style="font-size: 18px; font-weight: bold; color: #4ade80;">₹ <input type="number" id="priceLabel" value="50" style="font-size: 18px; font-weight: bold; color: #4ade80; border: none; background: transparent; width: 80px;" onchange="restrictCustomPrice()"></span>
     </div>
 
     <div class="form-group">
@@ -175,27 +128,28 @@
     const dict = {
         en: {
             home: "Go to Home", title: "✨ Heritage Creator Studio", subtitle: "Digitize your handmade craft items instantly",
-            id: "Generated Product ID", artisan: "Artisan Name", material: "Craft Material Used",
-            hours: "Hours Invested (Max 50 Hours)", price: "Final Listing Price (Customizable)",
+            id: "Generated Product ID", name: "Product Name", artisan: "Artisan Name", material: "Craft Material Used",
+            desc: "Product Story / Description", hours: "Hours Invested (Max 50 Hours)", price: "Final Listing Price (Customizable)",
             visual: "Product Visual Capture", cam: "Open Camera", gallery: "Attach from Gallery",
             snap: "Capture Photo", publish: "Publish & Generate QR", success: "✨ Live Sync Successful!",
             next: "Add Next Item", market: "🛒 Go to Marketplace", customPlaceholder: "Enter your custom material name",
+            namePlaceholder: "e.g. Traditional Clay Diya", descPlaceholder: "Tell the cultural story of this handmade product...",
             o1: "Terracotta Clay", o2: "Natural Jute", o3: "Raw Bamboo/Wood", o4: "Woolen Knits/Crochet", o5: "Soft Felt Fabric", o6: "Other (Type Your Own...)"
         },
         hi: {
             home: "मुख्य पृष्ठ पर जाएं", title: "✨ कारीगर स्टूडियो", subtitle: "अपने हाथ से बने सामान को तुरंत लाइव स्टोर पर डालें",
-            id: "ऑटो-जेनरेटेड आइटम नंबर", artisan: "आपका नाम", material: "बनाने में इस्तेमाल की गई सामग्री",
-            hours: "बनाने में लगे घंटे (अधिकतम 50 घंटे)", price: "अंतिम बिक्री मूल्य (बदला जा सकता है)",
+            id: "ऑटो-जेनरेटेड आइटम नंबर", name: "उत्पाद का नाम", artisan: "आपका नाम", material: "बनाने में इस्तेमाल की गई सामग्री",
+            desc: "उत्पाद की कहानी / विवरण", hours: "बनाने में लगे घंटे (अधिकतम 50 घंटे)", price: "अंतिम बिक्री मूल्य (बदला जा सकता है)",
             visual: "सामान की फोटो लें", cam: "कैमरा खोलें", gallery: "गैलरी से अपलोड करें",
             snap: "फोटो खींचें", publish: "सामान अपलोड करें और QR बनाएं", success: "✨ सामान सफलतापूर्वक जुड़ गया!",
             next: "अगला सामान जोड़ें", market: "🛒 मार्केटप्लेस पर जाएं", customPlaceholder: "अपनी सामग्री का नाम लिखें",
+            namePlaceholder: "जैसे: पारंपरिक मिट्टी का दीया", descPlaceholder: "इस उत्पाद के पीछे की सांस्कृतिक कहानी साझा करें...",
             o1: "टेराकोटा मिट्टी (Clay)", o2: "प्राकृतिक जूट (Jute)", o3: "बांस / लकड़ी (Wood)", o4: "ऊनी बुनाई / क्रोशिया", o5: "मुलायम फेल्ट कपड़ा", o6: "अन्य (खुद नाम लिखें...)"
         }
     };
 
     function generateRandomID() {
-        const randNum = Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('productId').value = "ART-" + randNum;
+        document.getElementById('productId').value = "ART-" + Math.floor(1000 + Math.random() * 9000);
     }
 
     function applyTranslations() {
@@ -204,8 +158,10 @@
         document.getElementById('titleText').innerText = d.title;
         document.getElementById('subTitleText').innerText = d.subtitle;
         document.getElementById('idLabel').innerText = d.id;
+        document.getElementById('nameLabel').innerText = d.name;
         document.getElementById('artisanLabel').innerText = d.artisan;
         document.getElementById('materialLabel').innerText = d.material;
+        document.getElementById('descLabel').innerText = d.desc;
         document.getElementById('hoursLabel').innerText = d.hours;
         document.getElementById('lblPrice').innerText = d.price;
         document.getElementById('visualLabel').innerText = d.visual;
@@ -217,6 +173,8 @@
         document.getElementById('nextItemBtn').innerText = d.next;
         document.getElementById('goToMarketBtn').innerText = d.market;
         document.getElementById('customMaterialInput').placeholder = d.customPlaceholder;
+        document.getElementById('productName').placeholder = d.namePlaceholder;
+        document.getElementById('productDesc').placeholder = d.descPlaceholder;
         
         document.getElementById('opt1').innerText = d.o1;
         document.getElementById('opt2').innerText = d.o2;
@@ -236,14 +194,13 @@
 
     function toggleMaterialInput() {
         const selectValue = document.getElementById('materialSelect').value;
-        const customWrapper = document.getElementById('customMaterialWrapper');
-        customWrapper.style.display = (selectValue === 'CUSTOM') ? 'block' : 'none';
+        document.getElementById('customMaterialWrapper').style.display = (selectValue === 'CUSTOM') ? 'block' : 'none';
     }
 
     function getSelectedMaterial() {
         const selectValue = document.getElementById('materialSelect').value;
         if (selectValue === 'CUSTOM') {
-            return document.getElementById('customMaterialInput').value || (currentLang === 'en' ? "Handcrafted Material" : "हस्तनिर्मित सामग्री");
+            return document.getElementById('customMaterialInput').value || (currentLang === 'en' ? "Handcrafted" : "हस्तनिर्मित");
         }
         return document.getElementById('materialSelect').options[document.getElementById('materialSelect').selectedIndex].text;
     }
@@ -273,7 +230,7 @@
             video.srcObject = stream;
             document.getElementById('snapBtn').style.display = 'flex';
         } catch (err) {
-            alert(currentLang === 'en' ? "Camera blocked. Try using the Gallery upload option." : "कैमरा ब्लॉक है। कृपया गैलरी ऑप्शन का इस्तेमाल करें।");
+            alert("Camera blocked. Please use the Gallery upload option.");
         }
     }
 
@@ -284,8 +241,6 @@
         canvas.width = video.videoWidth || 640;
         canvas.height = video.videoHeight || 480;
         const ctx = canvas.getContext('2d');
-        ctx.translate(canvas.width, 0);
-        ctx.scale(-1, 1);
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         finalCapturedImageBase64 = canvas.toDataURL('image/jpeg');
         img.src = finalCapturedImageBase64;
@@ -295,9 +250,7 @@
         if (currentStreamRef) { currentStreamRef.getTracks().forEach(track => track.stop()); }
     }
 
-    function triggerGallery() {
-        document.getElementById('galleryInput').click();
-    }
+    function triggerGallery() { document.getElementById('galleryInput').click(); }
 
     function handleGalleryUpload(event) {
         const file = event.target.files[0];
@@ -310,28 +263,23 @@
             img.style.display = 'block';
             document.getElementById('cameraView').style.display = 'none';
             document.getElementById('snapBtn').style.display = 'none';
-            if (currentStreamRef) { currentStreamRef.getTracks().forEach(track => track.stop()); }
         };
         reader.readAsDataURL(file);
     }
 
     async function publishProduct() {
         const pId = document.getElementById('productId').value.trim();
+        const pName = document.getElementById('productName').value.trim();
+        const pDesc = document.getElementById('productDesc').value.trim();
         const aName = document.getElementById('artisanName').value.trim();
         const material = getSelectedMaterial();
         const hours = document.getElementById('hoursInvested').value;
         const price = document.getElementById('priceLabel').value;
 
-        if(!pId || !aName || !material) { 
-            alert(currentLang === 'en' ? "Please complete all fields!" : "कृपया सभी खाली डिब्बे भरें!"); 
-            return; 
-        }
-        if(!finalCapturedImageBase64) { 
-            alert(currentLang === 'en' ? "Please take a photo or attach an image!" : "कृपया फोटो खींचें या गैलरी से अपलोड करें!"); 
-            return; 
-        }
+        if(!pId || !pName || !pDesc || !aName || !material) { alert("Please fill all fields!"); return; }
+        if(!finalCapturedImageBase64) { alert("Please provide a product image!"); return; }
 
-        const payload = { id: pId, artisan: aName, material: material, hours: hours, price: price, img: finalCapturedImageBase64 };
+        const payload = { id: pId, name: pName, desc: pDesc, artisan: aName, material: material, hours: hours, price: price, img: finalCapturedImageBase64 };
         
         try {
             const res = await fetch('/api/sync_product', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -341,12 +289,14 @@
                 new QRCode(document.getElementById('qrcode'), { text: data.qr_data, width: 140, height: 140 });
                 document.getElementById('qrResult').style.display = 'block';
                 document.getElementById('submitBtn').disabled = true;
-            } else { alert("Sync Error: " + data.message); }
+            }
         } catch(e) { alert("Connection Error"); }
     }
 
     function resetForm() {
         generateRandomID();
+        document.getElementById('productName').value = "";
+        document.getElementById('productDesc').value = "";
         document.getElementById('artisanName').value = "";
         document.getElementById('customMaterialInput').value = "";
         document.getElementById('materialSelect').selectedIndex = 0;
@@ -359,7 +309,6 @@
         finalCapturedImageBase64 = "";
     }
 
-    // Initialize ID and translations on load
     generateRandomID();
     applyTranslations();
 </script>
